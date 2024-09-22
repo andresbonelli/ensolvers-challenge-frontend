@@ -111,6 +111,7 @@ export default function Home() {
           <CreateNoteForm onCreateNote={() => getNotes()} />
         </section>
       </aside>
+      {/* TODO: make section scrollable to not */}
       <aside
         id="notes-list"
         className="flex flex-col sm:place-items-start place-items-center sm:w-1/2 min-h-screen w-full font-Montserrat py-10 "
