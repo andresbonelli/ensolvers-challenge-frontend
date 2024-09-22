@@ -17,20 +17,10 @@ export default function Home() {
     getNotes();
   }, []);
 
-  function getNotes() {
+  function getNotes(archived: boolean = false) {
+    const getArchived = archived ? "?getArchived=1" : "?getArchived=0";
     api
-      .get("/note/")
-      .then((res) => res.data)
-      .then((data) => {
-        setCurrentNotes(data);
-        console.log(data);
-      })
-      .catch((error) => alert(error));
-  }
-
-  function getArchivedNotes() {
-    api
-      .get("/note/archived/")
+      .get(`/note${getArchived}`)
       .then((res) => res.data)
       .then((data) => {
         setCurrentNotes(data);
@@ -116,13 +106,13 @@ export default function Home() {
           </h3>
           <div className="flex flex-row  justify-center w-full gap-5 ">
             <button
-              onClick={getNotes}
+              onClick={() => getNotes()}
               className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md w-24"
             >
               active
             </button>
             <button
-              onClick={getArchivedNotes}
+              onClick={() => getNotes(true)}
               className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md w-24"
             >
               archived
