@@ -1,4 +1,4 @@
-import { svgProps } from "../../../../interfaces";
+import { svgProps } from "../../../interfaces";
 
 export default function EditSquareIcon({ size, stroke }: svgProps) {
   return (
