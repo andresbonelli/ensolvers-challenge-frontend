@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { useState } from "react";
+import Loader from "../loader";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ export default function RegisterForm() {
         navigate("/login");
       } else alert("failed to register");
     } catch (error) {
-      alert("Se produjo un error inesperado. Vuelva a intentarlo más tarde");
+      alert("An unexpected error ocurred. Please try again later");
 
       console.error(error);
     } finally {
@@ -67,7 +68,12 @@ export default function RegisterForm() {
           register
         </button>
       </form>
-      {isLoading && "loading..."}
+
+      {isLoading && (
+        <div className="w-full flex flex-row justify-center mt-10 mb-5">
+          <Loader />
+        </div>
+      )}
     </>
   );
 }

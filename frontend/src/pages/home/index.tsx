@@ -4,6 +4,7 @@ import api from "../../api";
 import NoteCard from "../../components/noteCard";
 import CreateNoteForm from "../../components/noteForm";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader";
 
 export default function Home() {
   const [currentFilter, setCurrentFilter] = useState(() => {
@@ -11,61 +12,78 @@ export default function Home() {
   });
   const [filterInput, setFilterInput] = useState("");
   const [currentNotes, setCurrentNotes] = useState<NoteFromDB[]>([]);
+  const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     getNotes();
   }, []);
 
-  function getNotes(archived: boolean = false) {
+  async function getNotes(archived: boolean = false) {
     const getArchived = archived ? "?getArchived=1" : "?getArchived=0";
-    api
-      .get(`/note${getArchived}`)
-      .then((res) => res.data)
-      .then((data) => {
-        setCurrentNotes(data);
-        console.log(data);
-      })
-      .catch((error) => alert(error));
+    setIsloading(true);
+    try {
+      const res = await api.get(`/note${getArchived}`);
+      if (res.status === 200) {
+        setCurrentNotes(res.data);
+      }
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsloading(false);
+    }
   }
 
-  function handleArchiveNote(id: number) {
-    api
-      .put(`/note/archive/${id}`)
-      .then((res) => {
-        if (res.status === 200) console.log("Note archived!");
-        else alert("Failed to archive");
-      })
-      .catch((error) => alert(error));
-    window.location.reload();
+  async function handleArchiveNote(id: number, restoring: boolean = false) {
+    setIsloading(true);
+    try {
+      const res = await api.put(`/note/archive/${id}`);
+      if (res.status === 200) {
+        console.log("Note archived!");
+      } else alert("Failed to archive");
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsloading(false);
+      restoring ? getNotes(true) : getNotes();
+    }
   }
 
-  function handleEditNote(id: number, note: NoteCreate) {
-    api
-      .put(`/note/${id}`, note)
-      .then((res) => {
-        if (res.status === 200) console.log("Note edited");
-        else alert("failed to edit note");
-      })
-      .catch((error) => alert(error));
-    getNotes();
-    window.location.reload();
+  async function handleEditNote(id: number, note: NoteCreate) {
+    setIsloading(true);
+    try {
+      const res = await api.put(`/note/${id}`, note);
+      if (res.status === 200) {
+        console.log("Note edited!");
+      } else alert("Failed to edit note");
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsloading(false);
+      getNotes();
+    }
   }
 
-  function handleDeleteNote(id: number) {
-    api
-      .delete(`/note/${id}`)
-      .then((res) => {
-        if (res.status === 200) console.log("Note deleted!");
-        else alert("Failed to delete");
-      })
-      .catch((error) => alert(error));
-    window.location.reload();
+  async function handleDeleteNote(id: number) {
+    setIsloading(true);
+    try {
+      const res = await api.delete(`/note/${id}`);
+      if (res.status === 200) {
+        console.log("Note deleted!");
+      } else alert("Failed to delete note");
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsloading(false);
+      getNotes(true);
+    }
   }
+
   function handleNotesFilter(category: string) {
     setCurrentFilter(category);
     localStorage.setItem("filter", category);
   }
+
   function Logout() {
     localStorage.clear();
     console.log("Access token cleared!");
@@ -146,6 +164,7 @@ export default function Home() {
             id="notes-container"
             className="flex flex-col justify-start gap-5 place-items-center"
           >
+            {isLoading && <Loader />}
             {currentNotes?.map((note) => {
               if (currentFilter) {
                 if (currentFilter === note.category) {

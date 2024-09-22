@@ -76,7 +76,7 @@ export default function NoteCard({
         {isArchived ? (
           <>
             <button
-              onClick={() => onArchive(id)}
+              onClick={() => onArchive(id, true)}
               className="absolute top-1 -right-10"
             >
               <RestoreIcon size={30} stroke="black" />
@@ -91,10 +91,11 @@ export default function NoteCard({
         ) : (
           <>
             <button
+              disabled={isEditing}
               onClick={() => onArchive(id)}
               className="absolute top-1 -right-10"
             >
-              <ArchiveIcon size={30} stroke="black" />
+              <ArchiveIcon size={30} stroke={isEditing ? "gray" : "black"} />
             </button>
             <button
               onClick={() => setIsEditing(!isEditing)}
