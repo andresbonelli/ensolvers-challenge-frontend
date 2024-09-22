@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader";
 
 export default function Home() {
+  const [currentNotes, setCurrentNotes] = useState<NoteFromDB[]>([]);
   const [currentFilter, setCurrentFilter] = useState(() => {
     return localStorage.getItem("filter") || "";
   });
   const [filterInput, setFilterInput] = useState("");
-  const [currentNotes, setCurrentNotes] = useState<NoteFromDB[]>([]);
+  const [showingArchive, setShowingArchive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -112,6 +113,7 @@ export default function Home() {
         </section>
       </aside>
       {/* TODO: make section scrollable on big screens */}
+      {/* TODO: make section into separate component */}
       <aside
         id="notes-list"
         className="flex flex-col sm:place-items-start place-items-center sm:w-1/2 min-h-screen w-full font-Montserrat py-10 "
@@ -125,16 +127,22 @@ export default function Home() {
           </h3>
           <div className="flex flex-row  justify-center w-full gap-5 ">
             <button
-              onClick={() => getNotes()}
-              className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md w-24"
+              onClick={() => {
+                getNotes();
+                setShowingArchive(false);
+              }}
+              className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md "
             >
-              active
+              show active notes
             </button>
             <button
-              onClick={() => getNotes(true)}
-              className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md w-24"
+              onClick={() => {
+                getNotes(true);
+                setShowingArchive(true);
+              }}
+              className="bg-softGreen hover:bg-green text-white text-sm font-MontserratSemibold rounded p-2 shadow-md "
             >
-              archived
+              show archived notes
             </button>
           </div>
           <div className="flex flex-row justify-center place-items-center max-w-full gap-5  ">
@@ -165,7 +173,20 @@ export default function Home() {
             id="notes-container"
             className="flex flex-col justify-start gap-5 place-items-center"
           >
+            {/* TODO: Refactor note list into separate component */}
             {isLoading && <Loader />}
+            {currentNotes.length === 0 && (
+              <div className="text-gray-400 text-center">
+                {showingArchive ? (
+                  <p>you don't have any archived notes</p>
+                ) : (
+                  <p>
+                    you don't have any active notes.<br></br>check{" "}
+                    <i> "archived" </i>
+                  </p>
+                )}
+              </div>
+            )}
             {currentNotes?.map((note) => {
               if (currentFilter) {
                 if (currentFilter === note.category) {

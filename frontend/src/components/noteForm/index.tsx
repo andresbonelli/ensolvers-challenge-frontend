@@ -53,6 +53,7 @@ export default function CreateNoteForm({
         </div>
 
         <div>
+          {/* TODO: refactor categories into separate entity (backend) and change input to select */}
           <label
             htmlFor="note-category-input"
             className="block mb-2 text-sm font-medium text-gray-900"
