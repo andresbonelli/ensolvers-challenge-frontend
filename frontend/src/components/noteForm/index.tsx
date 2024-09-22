@@ -12,7 +12,7 @@ export default function CreateNoteForm({
   const [category, setCategory] = useState("");
   const [isLoading, setIsloading] = useState(false);
 
-  async function createNote(e: any) {
+  async function createNote(e: React.FormEvent<HTMLFormElement>) {
     setIsloading(true);
     e.preventDefault();
     const note: NoteCreate = { title: content, category: category };
@@ -25,6 +25,8 @@ export default function CreateNoteForm({
       alert(error);
     } finally {
       setIsloading(false);
+      setContent("");
+      setCategory("");
       onCreateNote();
     }
   }

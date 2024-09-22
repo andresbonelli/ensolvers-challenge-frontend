@@ -10,7 +10,7 @@ export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  function registerUser(e: any) {
+  function registerUser(e: React.FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
     try {

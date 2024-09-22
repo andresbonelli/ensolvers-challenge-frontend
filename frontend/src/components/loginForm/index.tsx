@@ -10,7 +10,7 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  function login(e: any) {
+  function login(e: React.FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
     try {
@@ -60,7 +60,10 @@ export default function LoginForm() {
           <input
             required
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setErrorMessage("");
+            }}
             className="block w-full p-2   bg-gray-50  focus:ring-grey focus:border-grey shadow-md "
           ></input>
         </div>
@@ -76,7 +79,10 @@ export default function LoginForm() {
             required
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value.toLowerCase())}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorMessage("");
+            }}
             className="block w-full p-2   bg-gray-50 focus:ring-grey focus:border-grey shadow-md "
           ></input>
         </div>
