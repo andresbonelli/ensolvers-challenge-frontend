@@ -12,9 +12,10 @@ export default function CreateNoteForm({
   const [category, setCategory] = useState("");
   const [isLoading, setIsloading] = useState(false);
 
-  async function createNote() {
-    const note: NoteCreate = { title: content, category: category };
+  async function createNote(e: any) {
     setIsloading(true);
+    e.preventDefault();
+    const note: NoteCreate = { title: content, category: category };
     try {
       const res = await api.post("/note/", note);
       if (res.status === 201) {

@@ -169,6 +169,28 @@ export default function Home() {
               if (currentFilter) {
                 if (currentFilter === note.category) {
                   return (
+                    <div
+                      className="relative w-full sm:max-w-96 max-w-80  "
+                      key={note.id}
+                    >
+                      <NoteCard
+                        id={note.id}
+                        content={note.title}
+                        category={note.category}
+                        onDelete={handleDeleteNote}
+                        onArchive={handleArchiveNote}
+                        isArchived={note.isArchived}
+                        onEdit={handleEditNote}
+                      />
+                    </div>
+                  );
+                }
+              } else {
+                return (
+                  <div
+                    className="relative w-full sm:max-w-96 max-w-80  "
+                    key={note.id}
+                  >
                     <NoteCard
                       id={note.id}
                       content={note.title}
@@ -178,19 +200,7 @@ export default function Home() {
                       isArchived={note.isArchived}
                       onEdit={handleEditNote}
                     />
-                  );
-                }
-              } else {
-                return (
-                  <NoteCard
-                    id={note.id}
-                    content={note.title}
-                    category={note.category}
-                    onDelete={handleDeleteNote}
-                    onArchive={handleArchiveNote}
-                    isArchived={note.isArchived}
-                    onEdit={handleEditNote}
-                  />
+                  </div>
                 );
               }
             })}
