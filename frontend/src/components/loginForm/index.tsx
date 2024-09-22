@@ -7,23 +7,34 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  async function login(e: any) {
+  function login(e: any) {
     setIsLoading(true);
     e.preventDefault();
-
     try {
-      const res = await api.post("/auth/login", { username, password });
-
-      if (res.status === 201) {
-        localStorage.setItem("access_token", res.data);
-        navigate("/");
-      }
+      api
+        .post("/auth/login", { username, password })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("Login successful");
+            localStorage.setItem("access_token", res.data);
+            navigate("/");
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            setErrorMessage(error.response.data.message);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
     } catch (error) {
-      alert("An unexpected error ocurred. Please try again later");
-
-      console.error(error);
+      alert(error);
     } finally {
       setIsLoading(false);
     }
@@ -31,6 +42,13 @@ export default function LoginForm() {
 
   return (
     <>
+      <p
+        className={`text-xs ${
+          errorMessage ?? "invisible"
+        } text-red text-center py-2`}
+      >
+        {errorMessage}
+      </p>
       <form onSubmit={login} className="w-full">
         <div className="mb-5 ">
           <label

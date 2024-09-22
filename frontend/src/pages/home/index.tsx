@@ -12,7 +12,7 @@ export default function Home() {
   });
   const [filterInput, setFilterInput] = useState("");
   const [currentNotes, setCurrentNotes] = useState<NoteFromDB[]>([]);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Home() {
 
   async function getNotes(archived: boolean = false) {
     const getArchived = archived ? "?getArchived=1" : "?getArchived=0";
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const res = await api.get(`/note${getArchived}`);
       if (res.status === 200) {
@@ -30,12 +30,12 @@ export default function Home() {
     } catch (error) {
       alert(error);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
     }
   }
 
   async function handleArchiveNote(id: number, restoring: boolean = false) {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const res = await api.put(`/note/archive/${id}`);
       if (res.status === 200) {
@@ -44,13 +44,13 @@ export default function Home() {
     } catch (error) {
       alert(error);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
       restoring ? getNotes(true) : getNotes();
     }
   }
 
   async function handleEditNote(id: number, note: NoteCreate) {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const res = await api.put(`/note/${id}`, note);
       if (res.status === 200) {
@@ -59,13 +59,13 @@ export default function Home() {
     } catch (error) {
       alert(error);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
       getNotes();
     }
   }
 
   async function handleDeleteNote(id: number) {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const res = await api.delete(`/note/${id}`);
       if (res.status === 200) {
@@ -74,7 +74,7 @@ export default function Home() {
     } catch (error) {
       alert(error);
     } finally {
-      setIsloading(false);
+      setIsLoading(false);
       getNotes(true);
     }
   }

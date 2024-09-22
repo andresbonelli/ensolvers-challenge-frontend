@@ -7,22 +7,33 @@ export default function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  async function registerUser(e: any) {
+  function registerUser(e: any) {
     setIsLoading(true);
     e.preventDefault();
     try {
-      const res = await api.post("/user/", { username, password });
-
-      if (res.status === 201) {
-        console.log("User created");
-        navigate("/login");
-      } else alert("failed to register");
+      api
+        .post("/user/", { username, password })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("User created");
+            navigate("/login");
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            setErrorMessage(error.response.data.message);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        });
     } catch (error) {
-      alert("An unexpected error ocurred. Please try again later");
-
-      console.error(error);
+      alert(error);
     } finally {
       setIsLoading(false);
     }
@@ -30,6 +41,14 @@ export default function RegisterForm() {
 
   return (
     <>
+      <p
+        className={`text-xs ${
+          errorMessage ?? "invisible"
+        } text-red text-center py-2`}
+      >
+        {errorMessage}
+      </p>
+
       <form onSubmit={registerUser} className="w-full">
         <div className="mb-5 ">
           <label
