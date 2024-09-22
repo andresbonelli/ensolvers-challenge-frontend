@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "start": "node main.tsx",
+    "start": "node src/main.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
