@@ -10,11 +10,11 @@ export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  function registerUser(e: React.FormEvent<HTMLFormElement>) {
+  async function registerUser(e: React.FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
     try {
-      api
+      await api
         .post("/user/", { username, password })
         .then((res) => {
           if (res.status === 201) {
@@ -60,7 +60,10 @@ export default function RegisterForm() {
           <input
             required
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setErrorMessage("");
+            }}
             className="block w-full p-2   bg-gray-50  focus:ring-grey focus:border-grey shadow-md "
           ></input>
         </div>
@@ -76,7 +79,10 @@ export default function RegisterForm() {
             required
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value.toLowerCase())}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorMessage("");
+            }}
             className="block w-full p-2   bg-gray-50 focus:ring-grey focus:border-grey shadow-md "
           ></input>
         </div>

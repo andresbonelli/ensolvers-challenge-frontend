@@ -5,6 +5,7 @@ import Login from "./pages/login";
 
 import ProtectedRoute from "./components/protectedRoute";
 import Home from "./pages/home";
+import NotFound from "./pages/not_found/notFound";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         ></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
       {/* <footer></footer> */}
     </BrowserRouter>

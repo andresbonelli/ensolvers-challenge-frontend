@@ -10,11 +10,11 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  function login(e: React.FormEvent<HTMLFormElement>) {
+  async function login(e: React.FormEvent<HTMLFormElement>) {
     setIsLoading(true);
     e.preventDefault();
     try {
-      api
+      await api
         .post("/auth/login", { username, password })
         .then((res) => {
           if (res.status === 201) {
