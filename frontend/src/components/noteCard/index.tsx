@@ -72,7 +72,7 @@ export default function NoteCard({
               htmlFor="save-note"
               className="absolute bottom-1 right-1 text-white text-xs p-1 bg-gray-500 "
             >
-              restore
+              save
             </label>
           )}
         </>
