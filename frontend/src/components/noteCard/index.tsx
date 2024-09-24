@@ -59,9 +59,22 @@ export default function NoteCard({
             value={editCategory}
             onChange={(e) => setEditCategory(e.target.value)}
           />
-          <button onClick={handleEdit} className="absolute bottom-1 -right-10">
+          <button
+            onMouseEnter={() => setShowToolTip("save")}
+            onMouseLeave={() => setShowToolTip("")}
+            onClick={handleEdit}
+            className="absolute bottom-1 -right-10"
+          >
             <SaveIcon size={30} fill="green" />
           </button>
+          {showToolTip === "save" && (
+            <label
+              htmlFor="save-note"
+              className="absolute bottom-1 right-1 text-white text-xs p-1 bg-gray-500 "
+            >
+              restore
+            </label>
+          )}
         </>
       ) : (
         <>
