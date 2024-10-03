@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+﻿# Full Stack Implementation Exercise
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Features
 
-Currently, two official plugins are available:
+- Users need to register and login to access main app.
+- Authenticated users are able to create, edit, and delete notes.
+- Users can archive/unarchive notes, as well as list them separately.
+- Users can add/remove/change categories to notes, and show filtered active/archived notes by category.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 2. Prerequisites
 
-## Expanding the ESLint configuration
+Before running the app, ensure that you have the following prerequisites:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node.js (v18.20.4)
+- npm (v10.5.2)
 
-- Configure the top-level `parserOptions` property like this:
+## 3. Getting Started
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+To start a local instance of the app, follow these steps:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Clone this repository: `git clone https://github.com/andresbonelli/ensolvers-challenge-frontend`
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+2. Navigate to frontend dir `frontend`
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+3. Install dependencies: `npm install`
+
+4. Run frontend server: `npm run dev`
+
+5. Open frontend locally: `http://localhost:5173`
+
+## IMPORTANT CONSIDERATIONS
+
+- Passwords are stored in plain text, do not use any sensitive data in this app intended as excercise only!
+
+### Live demo: https://andresbonelli-ensolvers-challenge.netlify.app/
